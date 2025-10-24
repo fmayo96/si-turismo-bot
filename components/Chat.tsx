@@ -1,7 +1,7 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Send } from 'lucide-react'
@@ -10,6 +10,16 @@ const Chat = () => {
   const [input, setInput] = useState('')
   const { messages, sendMessage } = useChat()
 
+  // 👇 Ref for auto-scroll
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // 👇 Scrolls to bottom when messages update
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim()) return
@@ -17,8 +27,9 @@ const Chat = () => {
     setInput('')
   }
 
-  const renderedMessages = useMemo(() => (
-<div className="flex flex-col w-full mb-24">
+  const renderedMessages = useMemo(
+    () => (
+      <div className="flex flex-col w-full mb-24">
         {messages.map((message) => (
           <div key={message.id} className="whitespace-pre-wrap">
             {message.parts.map((part, i) => {
@@ -59,8 +70,12 @@ const Chat = () => {
             })}
           </div>
         ))}
+        {/* 👇 dummy element for auto-scroll anchor */}
+        <div ref={messagesEndRef} />
       </div>
-  ), [messages])
+    ),
+    [messages]
+  )
 
   return (
     <div className="flex flex-col w-full h-[70vh] overflow-y-auto items-center max-w-2xl py-24 mx-auto">
