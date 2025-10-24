@@ -81,7 +81,7 @@ const Chat = () => {
         />
         <button
           type="submit"
-          className="flex items-center hover:cursor-pointer justify-center bg-[#323232d9] text-white rounded-full p-2 shadow-md hover:opacity-90 transition"
+          className="flex items-center hover:cursor-pointer justify-center bg-[#323232d9] text-white rounded-full p-2 shadow-md hover:opacity-80 transition"
         >
           <Send size={20} />
         </button>
