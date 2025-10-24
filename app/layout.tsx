@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'SiTurismo Chat',
+  title: 'Si Turismo Chat',
   description:
     'Obtené información sobre nuestras excursiones chateando con nuestra IA',
 }
