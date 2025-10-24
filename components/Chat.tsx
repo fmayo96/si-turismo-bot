@@ -78,7 +78,7 @@ const Chat = () => {
   )
 
   return (
-    <div className="flex flex-col w-full h-[70vh] overflow-y-auto items-center max-w-2xl py-24 mx-auto">
+    <div className="flex flex-col w-full h-[70vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] items-center max-w-2xl py-24 mx-auto">
       {/* Messages */}
       {renderedMessages}
 
