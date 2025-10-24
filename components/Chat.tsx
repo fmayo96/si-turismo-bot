@@ -1,7 +1,7 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Send } from 'lucide-react'
@@ -17,10 +17,8 @@ const Chat = () => {
     setInput('')
   }
 
-  return (
-    <div className="flex flex-col w-full h-[70vh] overflow-y-auto items-center max-w-2xl py-24 mx-auto">
-      {/* Messages */}
-      <div className="flex flex-col w-full mb-24">
+  const renderedMessages = useMemo(() => (
+<div className="flex flex-col w-full mb-24">
         {messages.map((message) => (
           <div key={message.id} className="whitespace-pre-wrap">
             {message.parts.map((part, i) => {
@@ -62,6 +60,12 @@ const Chat = () => {
           </div>
         ))}
       </div>
+  ), [messages])
+
+  return (
+    <div className="flex flex-col w-full h-[70vh] overflow-y-auto items-center max-w-2xl py-24 mx-auto">
+      {/* Messages */}
+      {renderedMessages}
 
       {/* Input + Send button (fixed at bottom) */}
       <form
