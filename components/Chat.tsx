@@ -89,7 +89,7 @@ const Chat = () => {
       {/* Input + Send button (fixed at bottom) */}
       <form
         onSubmit={handleSubmit}
-        className="fixed bottom-0 mb-8 w-3/4 max-w-2xl flex items-center space-x-2"
+        className="fixed bottom-0 my-8 w-3/4 max-w-2xl flex items-center space-x-2"
       >
         <input
           disabled={isLoading}
