@@ -9,6 +9,7 @@ import { Send } from 'lucide-react'
 const Chat = () => {
   const [input, setInput] = useState('')
   const { messages, sendMessage } = useChat()
+  const [isLoading, setIsLoading] = useState(false)
 
   // 👇 Ref for auto-scroll
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -20,11 +21,14 @@ const Chat = () => {
     }
   }, [messages])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!input.trim()) return
-    sendMessage({ text: input })
+
+    if (!input.trim() || isLoading) return
+    setIsLoading(true)
     setInput('')
+    await sendMessage({ text: input })
+    setIsLoading(false)
   }
 
   const renderedMessages = useMemo(
@@ -88,9 +92,12 @@ const Chat = () => {
         className="fixed bottom-0 mb-8 w-3/4 max-w-2xl flex items-center space-x-2"
       >
         <input
-          className="flex-grow dark:bg-[#323232d9] rounded-full outline-none py-2 px-4 border border-zinc-300 dark:border-zinc-800 shadow-xl text-white placeholder-gray-400"
+          disabled={isLoading}
+          className="flex-grow dark:bg-[#323232d9] rounded-full outline-none py-2 px-4 border border-zinc-300 dark:border-zinc-800 shadow-xl dark:text-white placeholder-gray-400"
           value={input}
-          placeholder="Nuevo mensaje..."
+          placeholder={
+            isLoading ? 'Esperando respuesta...' : 'Nuevo mensaje...'
+          }
           onChange={(e) => setInput(e.currentTarget.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
